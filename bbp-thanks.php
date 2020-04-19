@@ -89,16 +89,22 @@ function bbpress_post_add_thank(){
     $client_ip = $_SERVER['REMOTE_ADDR'];
     $identifier = is_user_logged_in() ? get_current_user_id() : $client_ip;
 
+    $existing_vote = array_key_exists($identifier, $voting_log) ? $voting_log[$identifier] : 0;
+
     // All good, add the user's vote
     $score = (int) get_post_meta($post_id, 'bbp_voting_score', true);
     if($direction > 0) {
-        $ups = (int) get_post_meta($post_id, 'bbp_voting_ups', true);
-        update_post_meta($post_id, 'bbp_voting_ups', $ups + 1);
-        $score = $score + 1;
+        if ($existing_vote < 1) {
+            $ups = (int) get_post_meta($post_id, 'bbp_voting_ups', true);
+            update_post_meta($post_id, 'bbp_voting_ups', $ups + 1);
+            $score = $score + 1;
+        }
     } elseif($direction < 0) {
-        $ups = (int) get_post_meta($post_id, 'bbp_voting_ups', true);
-        update_post_meta($post_id, 'bbp_voting_ups', $ups - 1);
-        $score = $score - 1;
+        if ($existing_vote > 0) {
+            $ups = (int) get_post_meta($post_id, 'bbp_voting_ups', true);
+            update_post_meta($post_id, 'bbp_voting_ups', $ups - 1);
+            $score = $score - 1;
+        }
     }
     // Update the score
     update_post_meta($post_id, 'bbp_voting_score', $score);
