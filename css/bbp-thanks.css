@@ -1,0 +1,21 @@
+.bbp-thanks{
+    margin:16px 0 8px;
+    display: inline-block;
+    width: 80px;
+    border: 2px solid black;
+    padding: 4px;
+    font-weight: bolder;
+    cursor: pointer;
+}
+.bbp-thanks a.thank.up:hover{
+    background-color:#787978;
+}
+
+.bbp-thanks.voted-up{
+    background-color:#787978;
+    color:white;
+}
+.bbp-thanks a.thank.remove:hover{
+    color:#992121;
+}
+
